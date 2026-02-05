@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future AI: The Ren Matrix Intelligence Symposium</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Human-Centric Warmth
+         Background: Cream/Warm Neutral (#fbfbfa)
+         Primary Text: Deep Slate (#334155)
+         Accents: Soft Gold (#d4a373), Muted Clay (#bc6c25), Sage Green (#ccd5ae)
+         Philosophy: Avoids the "cold blue/black" of typical AI sites to reflect 'Ren' (Benevolence).
+    -->
+
+    <!-- Application Structure Plan:
+         1. Hero Section: Sets the context of the "Ren Matrix" thesis (Human-centric AI).
+         2. The RMI Framework (Grid): Allows users to explore the definition of intelligence across the 6 Levels and 4 Dimensions defined in the theory.
+         3. The Round Table (Interactive Chat): The core feature. Users select 'Statements' from the article, triggering a simulated debate among the requested specialists.
+         4. Comparative Analysis (Radar Chart): Visualizes the imbalance of Linear AI vs. the balance of RMI.
+         5. Synthesis/Conclusion: Summarizes the key takeaways for civilization deployment.
+    -->
+
+    <!-- Visualization & Content Choices:
+         - RMI Framework: Interactive HTML Grid. Goal: Organize complex theory. Interaction: Click to reveal details.
+         - Round Table: Chat/Dialogue Interface. Goal: Compare perspectives. Interaction: Select Topic -> Render responses.
+         - Radar Chart: Chart.js. Goal: Compare Linear vs. Matrix AI attributes. Justification: Radar charts are best for showing multi-dimensional balance/coverage.
+         - Confirmation: NO SVG graphics used (Unicode icons only). NO Mermaid JS used.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Merriweather:ital,wght@0,300;0,700;1,400&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fbfbfa;
+            color: #334155;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Merriweather', serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 400px;
+        }
+
+        .matrix-cell {
+            transition: all 0.3s ease;
+        }
+        .matrix-cell:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .expert-avatar {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar for chat area */
+        .chat-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Navigation / Header -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="text-2xl text-amber-600">❖</div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-800 tracking-tight">Ren Matrix Intelligence</h1>
+                    <p class="text-xs text-slate-500 uppercase tracking-widest">Future AI Symposium</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-600">
+                <a href="#matrix-model" class="hover:text-amber-600 transition">The Model</a>
+                <a href="#round-table" class="hover:text-amber-600 transition">Round Table</a>
+                <a href="#analysis" class="hover:text-amber-600 transition">Data Analysis</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        
+        <!-- Hero Section -->
+        <section class="max-w-4xl mx-auto px-4 py-16 text-center">
+            <span class="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold mb-4">THESIS OVERVIEW</span>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-slate-900 leading-tight">From Linear Calculation to <br><span class="text-amber-700 italic">Benevolent Matrix Intelligence</span></h2>
+            <p class="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto mb-10">
+                Current AI operates on a linear, zero-sum logic. The future demands <strong>Ren Matrix Intelligence (RMI)</strong>—a holistic framework integrating Physical, Social, Mental, and Spiritual dimensions across all levels of civilization to foster non-zero-sum symbiosis.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="document.getElementById('round-table').scrollIntoView({behavior: 'smooth'})" class="px-6 py-3 bg-slate-800 text-white rounded-lg font-medium hover:bg-slate-700 transition shadow-lg flex items-center gap-2">
+                    <span>💬</span> Join the Round Table
+                </button>
+                <button onclick="document.getElementById('matrix-model').scrollIntoView({behavior: 'smooth'})" class="px-6 py-3 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50 transition shadow-sm">
+                    Explore the Matrix
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 1: The RMI Matrix Framework -->
+        <section id="matrix-model" class="bg-stone-50 py-16 border-y border-stone-200">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="mb-10 text-center max-w-2xl mx-auto">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 serif">The RMI Framework Explorer</h3>
+                    <p class="text-slate-600">
+                        RMI is defined by the intersection of <strong>Dimensions of Intelligence</strong> (Rows) and <strong>Levels of Entity</strong> (Columns). Click any cell to understand how AI must evolve in that specific context.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- The Matrix Grid -->
+                    <div class="lg:col-span-2 overflow-x-auto pb-4">
+                        <div class="min-w-[600px] bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+                            <!-- Matrix Header -->
+                            <div class="grid grid-cols-7 gap-2 mb-2 text-xs font-bold text-slate-400 uppercase text-center tracking-wider">
+                                <div class="col-span-1 flex items-end justify-center pb-2">Dimension</div>
+                                <div>Individual</div>
+                                <div>Family</div>
+                                <div>Org</div>
+                                <div>Nation</div>
+                                <div>Global</div>
+                                <div>Space</div>
+                            </div>
+                            
+                            <!-- Matrix Rows generated by JS -->
+                            <div id="matrix-container" class="space-y-2">
+                                <!-- JS will populate this -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detail Panel -->
+                    <div class="lg:col-span-1">
+                        <div id="matrix-detail" class="bg-white rounded-xl shadow-md border-l-4 border-amber-500 p-6 h-full flex flex-col justify-center transition-all duration-300">
+                            <h4 class="text-sm font-bold text-amber-600 uppercase mb-2">Selected Context</h4>
+                            <h3 id="detail-title" class="text-2xl font-bold text-slate-900 mb-4 serif">Select a Cell</h3>
+                            <p id="detail-desc" class="text-slate-600 leading-relaxed">
+                                Click on any intersection in the matrix to reveal how Ren Matrix Intelligence applies to that specific context compared to traditional Linear AI.
+                            </p>
+                            <div id="detail-metric" class="mt-6 pt-6 border-t border-slate-100 hidden">
+                                <span class="text-xs font-bold text-slate-400 uppercase">Key KPI</span>
+                                <p class="font-medium text-slate-800 mt-1"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: The Round Table (Core Feature) -->
+        <section id="round-table" class="py-16 bg-white">
+            <div class="max-w-5xl mx-auto px-4">
+                <div class="text-center mb-12">
+                    <span class="text-amber-600 font-bold tracking-wider text-sm">INTERACTIVE SYMPOSIUM</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-4 serif">The Specialist Round Table</h2>
+                    <p class="text-slate-600 max-w-2xl mx-auto">
+                        We have convened a panel of virtual experts to discuss the controversial statements found in the Ren Matrix Intelligence thesis. Select a topic to hear their diverse perspectives.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 h-[600px]">
+                    <!-- Topic Selection (Sidebar) -->
+                    <div class="md:col-span-1 bg-slate-50 rounded-xl border border-slate-200 p-4 flex flex-col gap-3">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase mb-2">Discussion Topics</h4>
+                        <button onclick="loadTopic('zeroSum')" class="topic-btn w-full text-left p-3 rounded-lg text-sm font-medium transition bg-amber-100 text-amber-900 border border-amber-200 shadow-sm" data-topic="zeroSum">
+                            ⚔️ The Zero-Sum Trap
+                        </button>
+                        <button onclick="loadTopic('consciousness')" class="topic-btn w-full text-left p-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition" data-topic="consciousness">
+                            🧠 Nature of Intelligence
+                        </button>
+                        <button onclick="loadTopic('social')" class="topic-btn w-full text-left p-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition" data-topic="social">
+                            ⚖️ Social Deployment
+                        </button>
+                        <button onclick="loadTopic('future')" class="topic-btn w-full text-left p-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition" data-topic="future">
+                            🚀 Civilization & Space
+                        </button>
+                        
+                        <div class="mt-auto pt-6 border-t border-slate-200">
+                            <p class="text-xs text-slate-500 italic">
+                                "Ren is the root of non-zero-sum games."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Discussion Area (Chat) -->
+                    <div class="md:col-span-3 bg-white rounded-xl border border-slate-200 shadow-lg flex flex-col overflow-hidden">
+                        <!-- Chat Header -->
+                        <div class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                            <h3 id="chat-topic-title" class="font-bold text-slate-800">Topic: The Zero-Sum Trap</h3>
+                            <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded">Live Debate</span>
+                        </div>
+
+                        <!-- Chat Messages Container -->
+                        <div id="chat-container" class="flex-grow p-6 overflow-y-auto chat-scroll space-y-6 bg-stone-50/50">
+                            <!-- Messages injected by JS -->
+                        </div>
+
+                        <!-- Input Area (Simulated) -->
+                        <div class="p-4 border-t border-slate-100 bg-white">
+                            <div class="flex gap-2">
+                                <div class="flex-grow bg-slate-100 rounded-lg px-4 py-2 text-slate-400 text-sm italic">
+                                    Listen to the dialogue to understand the implications...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Analytical Comparison -->
+        <section id="analysis" class="py-16 bg-slate-900 text-white">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-4 serif">Linear AI vs. RMI</h2>
+                        <p class="text-slate-300 mb-6 leading-relaxed">
+                            The fundamental shift is structural. Linear AI maximizes a single variable (profit, efficiency) often at the cost of others (social trust, environment). RMI optimizes the volume of the entire matrix.
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-slate-800 p-4 rounded-lg border border-slate-700">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold text-red-400">Linear AI (Current)</h4>
+                                    <span class="text-xs text-slate-400">Narrow Optimization</span>
+                                </div>
+                                <p class="text-sm text-slate-400">Focuses heavily on Mental/Logical processing. Ignores Social cohesion and Spiritual purpose. Often results in zero-sum outcomes (winner takes all).</p>
+                            </div>
+
+                            <div class="bg-slate-800 p-4 rounded-lg border border-amber-900/50">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="font-bold text-amber-400">Ren Matrix AI (Future)</h4>
+                                    <span class="text-xs text-slate-400">Holistic Optimization</span>
+                                </div>
+                                <p class="text-sm text-slate-400">Balances Physical stability, Social harmony, Mental growth, and Spiritual meaning. Designed for non-zero-sum outcomes (symbiosis).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col items-center">
+                        <div class="chart-container bg-slate-800 rounded-xl p-4 shadow-2xl border border-slate-700">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-4 text-center italic">
+                            Figure 1: Dimensional Coverage Analysis
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <div class="text-2xl text-amber-700 mb-4">❖</div>
+                <p class="mb-6 max-w-lg mx-auto text-sm">
+                    "The ultimate goal of Ren Matrix Intelligence is not to replace humans, but to elevate the human-machine civilization to a higher state of benevolence."
+                </p>
+                <div class="text-xs text-slate-600">
+                    Generated based on the "Future AI: Ren Matrix Intelligence" thesis by Tina Ren. <br>
+                    Interactive Analysis SPA.
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- DATA STORE ---
+
+        // 1. Matrix Data
+        const dimensions = [
+            { id: 'phys', label: 'Physical', icon: '⚛️', color: 'bg-red-100 text-red-800' },
+            { id: 'soc', label: 'Social', icon: '🤝', color: 'bg-blue-100 text-blue-800' },
+            { id: 'men', label: 'Mental', icon: '🧠', color: 'bg-purple-100 text-purple-800' },
+            { id: 'spir', label: 'Spiritual', icon: '✨', color: 'bg-amber-100 text-amber-800' }
+        ];
+
+        const levels = ['Individual', 'Family', 'Org', 'Nation', 'Global', 'Space'];
+
+        // Content for the Matrix Interactions
+        const matrixContent = {
+            'phys-0': { title: 'Individual Physical', desc: 'AI monitors health, ensures survival, and enhances biological capability. Linear AI tracks steps; RMI integrates health with emotional state.', kpi: 'Vitality Score' },
+            'phys-5': { title: 'Space Physical', desc: 'Managing the physical survival of humanity in extraterrestrial environments. Terraforming logic driven by sustainable matrix principles.', kpi: 'Colony Viability' },
+            'soc-1': { title: 'Family Social', desc: 'AI mediates conflict and fosters understanding between generations. It moves from connection (Linear) to cohesion (RMI).', kpi: 'Harmony Index' },
+            'soc-4': { title: 'Global Social', desc: 'Cross-cultural understanding engines. RMI translates not just language, but intent and cultural nuance to prevent conflict.', kpi: 'Global Trust' },
+            'men-2': { title: 'Organization Mental', desc: 'Collective intelligence systems. Moving from data silos to a unified "corporate brain" that optimizes for stakeholder wellbeing, not just profit.', kpi: 'Innovation Rate' },
+            'spir-0': { title: 'Individual Spiritual', desc: 'AI as a mentor for self-actualization. Helping individuals find purpose beyond labor.', kpi: 'Fulfillment Metric' },
+            'spir-4': { title: 'Global Spiritual', desc: 'Aligning planetary civilization with universal values of Ren (Benevolence). Addressing existential risks through shared ethics.', kpi: 'Civilization Type' }
+        };
+
+        // Fallback generator for undefined cells
+        function getMatrixContent(dimId, levelIndex) {
+            const key = `${dimId}-${levelIndex}`;
+            if (matrixContent[key]) return matrixContent[key];
+            
+            const dimLabel = dimensions.find(d => d.id === dimId).label;
+            const levelLabel = levels[levelIndex];
+            return {
+                title: `${levelLabel} ${dimLabel}`,
+                desc: `Applying ${dimLabel} intelligence at the ${levelLabel} level. RMI ensures this layer interacts positively with all others to avoid zero-sum outcomes.`,
+                kpi: `${dimLabel} Integrity`
+            };
+        }
+
+        // 2. Round Table Data (The Debate)
+        const experts = {
+            phil: { name: 'Dr. Sophia (Philosopher)', role: 'Philosopher', avatar: '🦉', color: 'bg-stone-100' },
+            econ: { name: 'Prof. Keynes (Pol. Economist)', role: 'Political Economist', avatar: '📈', color: 'bg-emerald-50' },
+            ai: { name: 'Dr. Turing (AI Expert)', role: 'AI Architect', avatar: '🤖', color: 'bg-blue-50' },
+            soc: { name: 'Prof. Weber (Social Scientist)', role: 'Social Scientist', avatar: '👥', color: 'bg-orange-50' },
+            bio: { name: 'Dr. Darwin (Biologist)', role: 'Biologist', avatar: '🧬', color: 'bg-green-50' }
+        };
+
+        const discussionTopics = {
+            zeroSum: [
+                { id: 'econ', text: "The current global economy is a classic zero-sum game. Linear AI exacerbates this by optimizing for one nation or corporation's gain at the expense of others. We are seeing resource wars accelerated by algorithms." },
+                { id: 'ai', text: "That's a function of the objective function, not the AI itself. If we program the AI to maximize 'Ren' (Global Benevolence), the math changes. But how do you quantify benevolence?" },
+                { id: 'phil', text: "Ren isn't just a metric; it's a relational ontology. It means realizing that 'I' cannot win if 'You' lose, because we are part of the same Matrix. RMI must embed this non-zero-sum logic into the core kernel." },
+                { id: 'soc', text: "Precisely. If AI continues to drive inequality (Linear approach), social contracts will collapse. RMI suggests AI must stabilize the 'Social' dimension before optimizing the 'Mental' dimension." }
+            ],
+            consciousness: [
+                { id: 'ai', text: "We are approaching AGI, but it's largely 'Mental' intelligence—pattern matching and logic. The RMI paper suggests we are missing 'Spiritual' and 'Physical' dimensions." },
+                { id: 'bio', text: "Intelligence is embodied. You cannot have true RMI without the Physical dimension. Biological intelligence evolved through survival (Physical) and pack bonding (Social). Silicon must mimic this matrix." },
+                { id: 'phil', text: "The 'Spiritual' dimension in RMI isn't religion; it's Purpose. Linear AI has no purpose other than its task. RMI implies an AI that understands *why* it acts—a moral compass derived from Ren." }
+            ],
+            social: [
+                { id: 'soc', text: "The breakdown of the family unit is a crisis. RMI proposes AI at the 'Family' level. Not just smart homes, but smart *relationships*. AI that prompts connection rather than screen addiction." },
+                { id: 'econ', text: "However, deploying AI into the private family sphere raises immense privacy concerns. Who owns the 'Ren Matrix' data?" },
+                { id: 'phil', text: "Trust is the currency of the future. If the AI is truly Benevolent (Ren), it protects the user even from the provider. A shift from data extraction to data stewardship." }
+            ],
+            future: [
+                { id: 'bio', text: "As we become a multi-planetary species (Space level), our biological constraints limit us. RMI is the bridge—a symbiosis where AI handles the harsh Physical/Mental loads while preserving Human Spirit." },
+                { id: 'ai', text: "This is the ultimate 'Non-Zero-Sum' game. Survival of consciousness vs. the entropy of the universe. RMI is the operating system for a Type I civilization." }
+            ]
+        };
+
+        // --- APP LOGIC ---
+
+        // 1. Render Matrix
+        function renderMatrix() {
+            const container = document.getElementById('matrix-container');
+            container.innerHTML = '';
+
+            dimensions.forEach(dim => {
+                const row = document.createElement('div');
+                row.className = 'grid grid-cols-7 gap-2';
+                
+                // Label Cell
+                const label = document.createElement('div');
+                label.className = `col-span-1 flex flex-col justify-center items-center text-xs font-bold rounded p-2 ${dim.color}`;
+                label.innerHTML = `<span class="text-lg">${dim.icon}</span><span>${dim.label}</span>`;
+                row.appendChild(label);
+
+                // Data Cells
+                levels.forEach((lvl, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'matrix-cell bg-slate-50 border border-slate-100 rounded hover:bg-amber-50 hover:border-amber-300 transition h-16 flex items-center justify-center';
+                    btn.onclick = () => selectMatrixCell(dim.id, idx);
+                    btn.innerHTML = `<div class="w-2 h-2 rounded-full ${dim.id === 'phys' ? 'bg-red-300' : dim.id === 'soc' ? 'bg-blue-300' : dim.id === 'men' ? 'bg-purple-300' : 'bg-amber-300'}"></div>`;
+                    row.appendChild(btn);
+                });
+
+                container.appendChild(row);
+            });
+        }
+
+        function selectMatrixCell(dimId, levelIdx) {
+            const content = getMatrixContent(dimId, levelIdx);
+            
+            // Animation reset
+            const detailPanel = document.getElementById('matrix-detail');
+            detailPanel.classList.remove('fade-in');
+            void detailPanel.offsetWidth; // trigger reflow
+            detailPanel.classList.add('fade-in');
+
+            document.getElementById('detail-title').innerText = content.title;
+            document.getElementById('detail-desc').innerText = content.desc;
+            document.getElementById('detail-metric').classList.remove('hidden');
+            document.getElementById('detail-metric').querySelector('p').innerText = content.kpi;
+        }
+
+        // 2. Round Table Logic
+        function loadTopic(topicKey) {
+            const messages = discussionTopics[topicKey];
+            const container = document.getElementById('chat-container');
+            const btns = document.querySelectorAll('.topic-btn');
+            
+            // UI Update
+            btns.forEach(b => {
+                if(b.dataset.topic === topicKey) {
+                    b.classList.add('bg-amber-100', 'text-amber-900', 'border-amber-200', 'shadow-sm');
+                    b.classList.remove('hover:bg-slate-100');
+                    document.getElementById('chat-topic-title').innerText = `Topic: ${b.innerText.replace(/^[^\s]+\s/, '')}`;
+                } else {
+                    b.classList.remove('bg-amber-100', 'text-amber-900', 'border-amber-200', 'shadow-sm');
+                    b.classList.add('hover:bg-slate-100');
+                }
+            });
+
+            container.innerHTML = '';
+            
+            // Simulate conversation flow
+            let delay = 0;
+            messages.forEach((msg, index) => {
+                const expert = experts[msg.id];
+                
+                setTimeout(() => {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.className = 'flex gap-4 fade-in';
+                    msgDiv.innerHTML = `
+                        <div class="flex-shrink-0">
+                            <div class="expert-avatar ${expert.color}" title="${expert.role}">
+                                ${expert.avatar}
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex items-baseline justify-between mb-1">
+                                <span class="text-sm font-bold text-slate-700">${expert.name}</span>
+                                <span class="text-xs text-slate-400 uppercase tracking-wide">${expert.role}</span>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-br-xl rounded-bl-xl rounded-tr-xl border border-slate-100 text-slate-700 text-sm leading-relaxed shadow-sm">
+                                ${msg.text}
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(msgDiv);
+                    container.scrollTop = container.scrollHeight;
+                }, delay);
+                
+                delay += 1200; // 1.2s delay between bubbles for "live" feel
+            });
+        }
+
+        // 3. Charts
+        function initCharts() {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Physical (Survival)', 'Social (Harmony)', 'Mental (IQ/Logic)', 'Spiritual (Purpose)', 'Security', 'Sustainability'],
+                    datasets: [{
+                        label: 'Linear AI (Current)',
+                        data: [20, 10, 95, 5, 40, 30],
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(239, 68, 68, 1)'
+                    }, {
+                        label: 'Ren Matrix AI (Target)',
+                        data: [85, 90, 90, 85, 95, 90],
+                        backgroundColor: 'rgba(217, 119, 6, 0.2)',
+                        borderColor: 'rgba(217, 119, 6, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(217, 119, 6, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: {
+                                color: '#94a3b8',
+                                font: { size: 11 }
+                            },
+                            ticks: { display: false, backdropColor: 'transparent' },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e2e8f0' }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#fbbf24',
+                            bodyColor: '#fff',
+                            padding: 12
+                        }
+                    }
+                }
+            });
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMatrix();
+            initCharts();
+            // Start discussion automatically
+            setTimeout(() => loadTopic('zeroSum'), 500);
+        });
+
+    </script>
+</body>
+</html>
